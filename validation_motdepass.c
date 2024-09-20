@@ -1,31 +1,25 @@
 #include<stdio.h>
 #include<string.h>
 
-int validation_motdepass(char motdepass[])
+int validation_motdepass(char motdepass[], char nom_utilisateur[])
 {
-    int i, miniscule_found = 0, majuscule_found = 0, chiffre_found = 0;
+    int i, miniscule_found = 0, majuscule_found = 0, chiffre_found = 0, caractere_found = 0;
     if(strlen(motdepass) < 8)
+        return(0);
+    if(strstr(motdepass, nom_utilisateur) != NULL)
         return(0);
     for(i = 0; motdepass[i] != '\0'; i++)
     {
-        if(motdepass[i] > 'a' && motdepass[i] < 'z')
+        if(motdepass[i] >='a' && motdepass[i] <= 'z')
             miniscule_found = 1;
-        if(miniscule_found && (motdepass[i] > 'A' && motdepass[i] < 'Z'))
+        else if(motdepass[i] >= 'A' && motdepass[i] <= 'Z')
             majuscule_found = 1;
-        if(majuscule_found && motdepass[i] > '0' && motdepass[i] < '9')
+        else if(motdepass[i] >= '0' && motdepass[i] <= '9')
             chiffre_found = 1;
-        if(chiffre_found)
-            return 1;
+        else if(motdepass[i] >= 33 && motdepass[i] <= 47 || motdepass[i] == '@')
+            caractere_found = 1;
     }
-}
-int main()
-{
-    char motdepass[15];
-    printf("entrer un mot de pass");
-    scanf(" %[^\n]s", & motdepass);
-    if(validation_motdepass(motdepass) == 0)
-        printf("try egain");
-    else
-        printf("valider");
+    if(miniscule_found && majuscule_found && chiffre_found && caractere_found)
+        return(1);
     return(0);
 }

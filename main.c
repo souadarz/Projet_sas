@@ -1,30 +1,5 @@
+#include"header.h"
 #include<stdio.h>
-
-#define TAILLE 100
-#define TAILLE_CLIENT 50
-#define TAILLE_ID 4
-#define TAILLE_MOTIF 100
-#define TAILLE_CATEGORIE 100
-#define TAILLE_STATUS 50
-#define TAILLE_DATE 10
-
-typedef struct reclamation {
-    char client;
-    int ID;
-    char motif;
-    char description;
-    char categorie;
-    char status;
-    char date;
-} reclamation;
-
-reclamation tableau_reclamation[TAILLE];
-void ajouter_reclamation();
-void afficher_reclamation();
-void modifier_reclamation();
-void supprimer_reclamation();
-void traiter_reclamation();
-void rechercher_reclamation();
 
 void menu()
 {
