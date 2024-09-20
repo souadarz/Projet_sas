@@ -35,6 +35,7 @@ typedef struct utilisateur {
 
 utilisateur tableau_utilisateur[TAILLE_UTILISATEUR];
 reclamation tableau_reclamation[TAILLE];
+int validation_motdepass(char motdepass[], char nom_utilisateur[]);
 void menu_1();
 void menu_2();
 void menu_3();
