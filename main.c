@@ -1,7 +1,7 @@
 #include"header.h"
 #include<stdio.h>
 
-void menu()
+void menu_admin()
 {
     int n; 
     do{
@@ -22,8 +22,4 @@ void menu()
         case 6: rechercher_reclamation(); break;
         default: printf("entrer un nombre se trouve dans la liste");
     }
-}
-int main()
-{
-    menu();
 }

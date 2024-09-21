@@ -2,7 +2,6 @@
 #define HEADER_H
 
 #define TAILLE 100
-#define TAILLE_CLIENT 50
 #define TAILLE_MOTIF 100
 #define TAILLE_DESCIPTION 1000
 #define TAILLE_CATEGORIE 100
@@ -14,8 +13,11 @@
 #define TAILLE_MOTDEPASS 20
 #define TAILLE_UTILISATEUR 100
 
+//#include "validation_motdepass.c"
+//#include "tempCodeRunnerFile.c"
+
 typedef struct reclamation {
-    char client[TAILLE_CLIENT];
+    char email[TAILLE_EMAIL];
     int ID;
     char motif[TAILLE_MOTIF];
     char description[TAILLE_DESCIPTION];
@@ -33,18 +35,20 @@ typedef struct utilisateur {
     int role;
 } utilisateur;
 
+utilisateur* utilisateur_actuel;
 utilisateur tableau_utilisateur[TAILLE_UTILISATEUR];
 reclamation tableau_reclamation[TAILLE];
-int validation_motdepass(char motdepass[], char nom_utilisateur[]);
-void menu_1();
-void menu_2();
-void menu_3();
-void ajouter_reclamation();
-void afficher_reclamation();
-void modifier_reclamation();
-void supprimer_reclamation();
-void traiter_reclamation();
-void rechercher_reclamation();
+int validation_motdepass(char motdepass[TAILLE_MOTDEPASS], char nom_utilisateur[TAILLE_NOM]);
+void menu_admin();
+void menu_agent_reclamation();
+void menu_client();
+// void ajouter_reclamation();
+// void afficher_reclamation();
+// void modifier_reclamation();
+// void supprimer_reclamation();
+// void traiter_reclamation();
+// void rechercher_reclamation();
+utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL]);
 
 int nombre_utilisateur = 0;
 #endif
