@@ -13,9 +13,6 @@
 #define TAILLE_MOTDEPASS 20
 #define TAILLE_UTILISATEUR 100
 
-//#include "validation_motdepass.c"
-//#include "tempCodeRunnerFile.c"
-
 typedef struct reclamation {
     char email[TAILLE_EMAIL];
     int ID;
@@ -39,16 +36,20 @@ utilisateur* utilisateur_actuel;
 utilisateur tableau_utilisateur[TAILLE_UTILISATEUR];
 reclamation tableau_reclamation[TAILLE];
 int validation_motdepass(char motdepass[TAILLE_MOTDEPASS], char nom_utilisateur[TAILLE_NOM]);
+utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL]);
+void menu_reclamations();
+void menu_utilisateurs();
+void menu_statistiques();
 void menu_admin();
 void menu_agent_reclamation();
 void menu_client();
-// void ajouter_reclamation();
-// void afficher_reclamation();
-// void modifier_reclamation();
-// void supprimer_reclamation();
-// void traiter_reclamation();
-// void rechercher_reclamation();
-utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL]);
-
-int nombre_utilisateur = 0;
+void ajouter_reclamation();
+void afficher_reclamation();
+void modifier_reclamation();
+void supprimer_reclamation();
+void traiter_reclamation();
+void rechercher_reclamation();
+void modifier_utilisateur();
+void supprimer_utilisateur();
+void rechercher_utilisateur();
 #endif

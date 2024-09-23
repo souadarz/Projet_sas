@@ -3,56 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 
+int nombre_recmamation = 0;
+int nombre_utilisateur = 0;
 void sign_up();
 void sign_in();
 void sign_up_in_affichage();
-utilisateur *trouver_utilisateur(char email[TAILLE_EMAIL]);
-utilisateur *trouver_utilisateur(char email[TAILLE_EMAIL])
-{
-    int i;
-    for (i = 0; i <= nombre_utilisateur; i++)
-    {
-        if (strcmp(email, tableau_utilisateur[i].email) == 0)
-            return (&(tableau_utilisateur[i]));
-    }
-    return (NULL);
-}
-// int validation_motdepass(char motdepass[TAILLE_MOTDEPASS], char nom_utilisateur[TAILLE_NOM]);
-int validation_motdepass(char motdepass[TAILLE_MOTDEPASS], char nom_utilisateur[TAILLE_NOM])
-{
-    int i, miniscule_found = 0, majuscule_found = 0, chiffre_found = 0, caractere_found = 0;
-    if (strlen(motdepass) < 8)
-        return (-1);
-    if (strstr(motdepass, nom_utilisateur) != NULL)
-        return (-1);
-    for (i = 0; motdepass[i] != '\0'; i++)
-    {
-        if (motdepass[i] >= 'a' && motdepass[i] <= 'z')
-            miniscule_found = 1;
-        else if (motdepass[i] >= 'A' && motdepass[i] <= 'Z')
-            majuscule_found = 1;
-        else if (motdepass[i] >= '0' && motdepass[i] <= '9')
-            chiffre_found = 1;
-        else if (motdepass[i] >= 33 && motdepass[i] <= 47 || motdepass[i] == '@')
-            caractere_found = 1;
-    }
-    if (miniscule_found && majuscule_found && chiffre_found && caractere_found)
-        return (1);
-    return (0);
-}
-
-void menu_admin()
-{
-    printf("admin");
-}
-void menu_agent_reclamation()
-{
-    printf("agent de reclamation");
-}
-void menu_client()
-{
-    printf("client");
-}
 
 void initialisation()
 {
@@ -63,6 +18,7 @@ void initialisation()
     strcpy(tableau_utilisateur[0].prenom, "boclet");
     tableau_utilisateur[0].age = 35;
     tableau_utilisateur[0].role = 1;
+    nombre_utilisateur++;
 }
 
 int valider_email_format(char email[TAILLE_EMAIL])
@@ -86,7 +42,7 @@ int valider_email(char email[TAILLE_EMAIL])
     {
         return (-1);
     }
-    for (i = 0; i <= nombre_utilisateur; i++)
+    for (i = 0; i < nombre_utilisateur; i++)
     {
         if (strcmp(email, tableau_utilisateur[i].email) == 0)
         {
@@ -115,13 +71,13 @@ void sign_up_in_affichage()
         default:
             printf("\nessayer de choisir un  nombre se trouvre dans la liste");
         }
-    } while ((choix != 1) || (choix != 2));
+    } while (((choix != 1) && (choix != 2)));
 }
 void sign_in()
 {
     int i, nombre_essais = 0;
     char email_user[TAILLE_EMAIL], motdepass_user[TAILLE_MOTDEPASS];
-    utilisateur *user;
+    utilisateur* user;
     do
     {
         printf("\nentrer l'email : ");
@@ -130,11 +86,9 @@ void sign_in()
         scanf(" %[^\n]s", motdepass_user);
         user = trouver_utilisateur(email_user);
         nombre_essais++;
-        if ((user == NULL) || strcmp(motdepass_user, user->motdepass) != 0)
+        if(((user == NULL) || (strcmp(motdepass_user, user->motdepass) != 0)) && (nombre_essais < 3))
             printf("\nl'email ou le mot de pass est inccorect, essayer une autre fois");
-        //else if ((user == NULL) || strcmp(motdepass_user, user->motdepass) != 0) && nombre_essais < 3)
-           // printf("vous avez depasse le nombe d'essais autoriser\n");
-    } while (((user == NULL) || strcmp(motdepass_user, user->motdepass) != 0) && nombre_essais < 3);
+    } while(((user == NULL) || strcmp(motdepass_user, user->motdepass) != 0) && nombre_essais < 3);
 
     if (user == NULL)
     {
