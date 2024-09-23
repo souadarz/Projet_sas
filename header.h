@@ -21,6 +21,7 @@ typedef struct reclamation {
     char categorie[TAILLE_CATEGORIE];
     char status[TAILLE_STATUS];
     char date[TAILLE_DATE];
+    
 } reclamation;
 
 typedef struct utilisateur {
@@ -52,4 +53,7 @@ void rechercher_reclamation();
 void modifier_utilisateur();
 void supprimer_utilisateur();
 void rechercher_utilisateur();
+char date_de_reclamation();
+int generation_ID_reclamation();
+void initilistaion_reclamation();
 #endif

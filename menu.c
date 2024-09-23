@@ -28,7 +28,8 @@ void menu_reclamations()
     printf("\n3. supprimer  une réclamation");
     printf("\n4. traiter une reclamation");
     printf("\n5. rechercher une  reclamation");
-    printf("\n6. quitter");
+    printf("\n6. ajouter une  reclamation");
+    printf("\n7. quitter");
     printf("\nentrer un nombre : ");
     scanf("%d", &n);
     getchar();
@@ -40,7 +41,8 @@ void menu_reclamations()
         case 3: supprimer_reclamation(); break;
         case 4: traiter_reclamation(); break;
         case 5: rechercher_reclamation(); break;
-        case 6: break;
+        case 6: ajouter_reclamation(); break;
+        case 7: break;
         default: printf("\nentrer un nombre se trouve dans la liste");
             break;
     }
@@ -51,7 +53,7 @@ void menu_utilisateurs()
     printf("\n1.modifier les informations d'un utilisateur");
     printf("\n2.supprimer un utilisateur");
     printf("\n3.rechercher un utilisateur");
-    printf("entrer un nombre : ");
+    printf("choisir un nombre : ");
     scanf("%d", &n);
     switch (n)
     {
@@ -77,12 +79,14 @@ void menu_client()
     int n;
     printf("\n1. afficher réclamations");
     printf("\n2. modifier une réclamation");
+    printf("\n3. ajouter_reclamation");
     printf("entrer un nombre : ");
     scanf("%d", &n);
     switch(n)
     {
         case 1: afficher_reclamation(); break;
         case 2: modifier_reclamation(); break;
+        case 3: ajouter_reclamation(); break;
         default: printf("\nentrer un nombre se trouve dans la liste");
     }
 }

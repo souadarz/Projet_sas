@@ -3,13 +3,14 @@
 #include <string.h>
 #include <unistd.h>
 
-int nombre_recmamation = 0;
+char liste_categories[5][60] ={"categorie_1", "categorie_2", "categorie_3", "categrie_4", "categorie_5"};
+int nombre_reclamation = 0;
 int nombre_utilisateur = 0;
 void sign_up();
 void sign_in();
 void sign_up_in_affichage();
 
-void initialisation()
+void initialisation_utilisateur()
 {
     // les informations du admin
     strcpy(tableau_utilisateur[0].email, "admin@gmail.com");
@@ -92,7 +93,6 @@ void sign_in()
 
     if (user == NULL)
     {
-        // TODO: a revoir
         printf("\nessayer une autre fois dans une heure");
         sleep(10);
         sign_up_in_affichage();
@@ -145,13 +145,13 @@ void sign_up()
         else if (test_motdepass == -1)
             printf("\nle mot de pass doit contenir au minimum 8 caractère et ne doit pas contenir le nom de l'utilisateur");
     } while ((test_motdepass == 0) || (test_motdepass == -1));
-    // stoch=ker un nouvou etulisateur dans le tableau et incru nobr d utulisateur
     strcpy(tableau_utilisateur[nombre_utilisateur].email, email_user);
     strcpy(tableau_utilisateur[nombre_utilisateur].nom, nom_user);
     strcpy(tableau_utilisateur[nombre_utilisateur].prenom, prenom_user);
     tableau_utilisateur[nombre_utilisateur].age = age_user;
     strcpy(tableau_utilisateur[nombre_utilisateur].motdepass, motdepass_user);
     tableau_utilisateur[nombre_utilisateur].role = 3;
+    
     nombre_utilisateur++;
     printf("\nvous avez inscrir");
     printf("\nvous pouvez maintement se connecter");
@@ -159,6 +159,7 @@ void sign_up()
 }
 int main()
 {
-    initialisation();
+    initialisation_utilisateur();
+    initilistaion_reclamation();
     sign_up_in_affichage();
 }

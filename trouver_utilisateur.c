@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "header.h"
+#include <time.h>
+#include <string.h>
 
-
+extern int nombre_reclamation;
 extern int nombre_utilisateur;
 utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL])
 {
@@ -13,7 +15,15 @@ utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL])
     }
     return(NULL);
 }
-void trouver_role()
+char date_de_reclamation()
 {
-    
-} 
+    int time_t, date_reclamation;
+    date_reclamation = time(NULL);
+    return(date_reclamation);
+}
+
+int generation_ID_reclamation()
+{
+    int count = 0;
+    return(count++);
+}
