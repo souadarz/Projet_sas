@@ -1,7 +1,7 @@
 #include "header.h"
 #include <stdio.h>
 
-void menu_admin()
+void menu_admin(char email[], int role)
 { 
     int n;
         printf("\n1.gestion des reclamations");
@@ -11,15 +11,15 @@ void menu_admin()
         scanf("%d", &n);
     switch(n)
     { 
-        case 1: menu_reclamations(); break;
-        case 2: menu_utilisateurs(); break;
+        case 1: menu_reclamations(email , role); break;
+        case 2: menu_utilisateurs(email, role); break;
         case 3: menu_statistiques(); break;
         default: printf("\nentrer un nombre se trouve dans la liste");
-            menu_admin();
+            menu_admin(email,  role);
             break;
     }
 }
-void menu_reclamations()
+void menu_reclamations(char email[], int role)
 {
     int n;
     printf("\n0. revenir");
@@ -35,8 +35,8 @@ void menu_reclamations()
     getchar();
     switch(n)
     {
-        case 0: menu_admin(); break;
-        case 1: afficher_reclamation(); break;
+        case 0: menu_admin(email, role); break;
+        case 1: afficher_reclamation(email,role); break;
         case 2: modifier_reclamation(); break;
         case 3: supprimer_reclamation(); break;
         case 4: traiter_reclamation(); break;
@@ -47,17 +47,17 @@ void menu_reclamations()
             break;
     }
 }
-void menu_utilisateurs()
+void menu_utilisateurs(char email[], int role)
 {
     int n;
     printf("\n1.modifier les informations d'un utilisateur");
     printf("\n2.supprimer un utilisateur");
     printf("\n3.rechercher un utilisateur");
-    printf("choisir un nombre : ");
+    printf("\nchoisir un nombre : ");
     scanf("%d", &n);
     switch (n)
     {
-        case 0: menu_admin(); break;
+        case 0: menu_admin(email, role); break;
         case 1: modifier_utilisateur(); break;
         case 2: supprimer_utilisateur(); break;
         case 3: rechercher_utilisateur(); break;
@@ -74,19 +74,21 @@ void menu_agent_reclamation()
     printf("agent");
 }
 
-void menu_client()
+void menu_client(char email[] , int role)
 {
     int n;
     printf("\n1. afficher réclamations");
     printf("\n2. modifier une réclamation");
     printf("\n3. ajouter_reclamation");
-    printf("entrer un nombre : ");
+    printf("\nentrer un nombre : ");
     scanf("%d", &n);
+    getchar();
     switch(n)
     {
-        case 1: afficher_reclamation(); break;
-        case 2: modifier_reclamation(); break;
-        case 3: ajouter_reclamation(); break;
+        case 1: afficher_reclamation(email , role); break;
+        case 2: modifier_reclamation(email , role); break;
+        case 3: ajouter_reclamation(email , role); break;
         default: printf("\nentrer un nombre se trouve dans la liste");
+            break;
     }
 }

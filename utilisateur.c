@@ -71,6 +71,7 @@ void sign_up_in_affichage()
             break;
         default:
             printf("\nessayer de choisir un  nombre se trouvre dans la liste");
+            break;
         }
     } while (((choix != 1) && (choix != 2)));
 }
@@ -78,7 +79,7 @@ void sign_in()
 {
     int i, nombre_essais = 0;
     char email_user[TAILLE_EMAIL], motdepass_user[TAILLE_MOTDEPASS];
-    utilisateur* user;
+    utilisateur user;
     do
     {
         printf("\nentrer l'email : ");
@@ -87,11 +88,11 @@ void sign_in()
         scanf(" %[^\n]s", motdepass_user);
         user = trouver_utilisateur(email_user);
         nombre_essais++;
-        if(((user == NULL) || (strcmp(motdepass_user, user->motdepass) != 0)) && (nombre_essais < 3))
+        if((user.email[0] == '\0'|| (strcmp(motdepass_user, user.motdepass) != 0)) && (nombre_essais < 3))
             printf("\nl'email ou le mot de pass est inccorect, essayer une autre fois");
-    } while(((user == NULL) || strcmp(motdepass_user, user->motdepass) != 0) && nombre_essais < 3);
+    } while((user.email[0] == '\0' || strcmp(motdepass_user, user.motdepass) != 0) && nombre_essais < 3);
 
-    if (user == NULL)
+    if (user.email[0] == '\0')
     {
         printf("\nessayer une autre fois dans une heure");
         sleep(10);
@@ -99,17 +100,17 @@ void sign_in()
     }
     else
     {
-        utilisateur_actuel = user;
-        switch (utilisateur_actuel->role)
+        //utilisateur utilisateur_actuel;
+        switch (user.role)
         {
         case 1:
-            menu_admin();
+            menu_admin(user.email , user.role);
             break;
         case 2:
-            menu_agent_reclamation();
+            menu_agent_reclamation(user.email , user.role);
             break;
         case 3:
-            menu_client();
+            menu_client(user.email , user.role);
             break;
         }
     }
@@ -153,9 +154,10 @@ void sign_up()
     tableau_utilisateur[nombre_utilisateur].role = 3;
     
     nombre_utilisateur++;
-    printf("\nvous avez inscrir");
+    /*printf("\nvous avez inscrir");
     printf("\nvous pouvez maintement se connecter");
-    sign_in();
+    sign_in();*/
+    menu_client();
 }
 int main()
 {

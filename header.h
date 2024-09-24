@@ -6,12 +6,13 @@
 #define TAILLE_DESCIPTION 1000
 #define TAILLE_CATEGORIE 100
 #define TAILLE_STATUS 50
-#define TAILLE_DATE 10
 #define TAILLE_EMAIL 50
 #define TAILLE_NOM 20
 #define TAILLE_PRENOM 20
 #define TAILLE_MOTDEPASS 20
 #define TAILLE_UTILISATEUR 100
+
+#include <time.h>
 
 typedef struct reclamation {
     char email[TAILLE_EMAIL];
@@ -20,7 +21,7 @@ typedef struct reclamation {
     char description[TAILLE_DESCIPTION];
     char categorie[TAILLE_CATEGORIE];
     char status[TAILLE_STATUS];
-    char date[TAILLE_DATE];
+    time_t date;
     
 } reclamation;
 
@@ -33,11 +34,11 @@ typedef struct utilisateur {
     int role;
 } utilisateur;
 
-utilisateur* utilisateur_actuel;
+utilisateur utilisateur_actuel;
 utilisateur tableau_utilisateur[TAILLE_UTILISATEUR];
 reclamation tableau_reclamation[TAILLE];
 int validation_motdepass(char motdepass[TAILLE_MOTDEPASS], char nom_utilisateur[TAILLE_NOM]);
-utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL]);
+utilisateur trouver_utilisateur(char email[TAILLE_EMAIL]);
 void menu_reclamations();
 void menu_utilisateurs();
 void menu_statistiques();
