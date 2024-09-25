@@ -3,6 +3,9 @@
 #include <string.h>
 #include <unistd.h>
 
+char mot_cle_haute[5][15] = {"urgent", "risque", "ritique", "haute2", "haute3"};
+char mot_cle_myenne[5][15] = {"moyenne_1", "moyenne_2", "moyenne_3", "moyenne_4", "moyenne_5"};
+char mot_cle_besse[5][15] = {"basse_1", "basse_2", "basse_3", "basse_4", "basse_5"};
 char liste_categories[5][60] ={"categorie_1", "categorie_2", "categorie_3", "categrie_4", "categorie_5"};
 int nombre_reclamation = 0;
 int nombre_utilisateur = 0;

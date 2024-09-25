@@ -30,6 +30,8 @@ void menu_reclamations()
     printf("\n5. rechercher une reclamation");
     printf("\n6. ajouter une reclamation");
     printf("\n7. quitter");
+    if(utilisateur_actuel->role == 1)
+        printf("\n8. afficher par priorité");
     printf("\nentrer un nombre : ");
     scanf("%d", &n);
     getchar();
@@ -42,7 +44,12 @@ void menu_reclamations()
         case 4: traiter_reclamation(); break;
         case 5: rechercher_reclamation(); break;
         case 6: ajouter_reclamation(); break;
-        case 7: break;
+        case 7: {
+                if(utilisateur_actuel->role == 1)
+                    afficher_reclamation_priorite();
+            break;
+        }
+        case 8: break;
         default: printf("\nentrer un nombre se trouve dans la liste");
             break;
     }
@@ -50,6 +57,7 @@ void menu_reclamations()
 void menu_utilisateurs()
 {
     int n;
+    printf("\n0. revenir");
     printf("\n1.modifier les informations d'un utilisateur");
     printf("\n2.supprimer un utilisateur");
     printf("\n3.rechercher un utilisateur");
@@ -57,7 +65,7 @@ void menu_utilisateurs()
     scanf("%d", &n);
     switch (n)
     {
-        case 0: menu_admin(); break;
+        case 0: menu_utilisateurs(); break;
         case 1: modifier_utilisateur(); break;
         case 2: supprimer_utilisateur(); break;
         case 3: rechercher_utilisateur(); break;
@@ -71,7 +79,7 @@ void menu_statistiques()
 }
 void menu_agent_reclamation()
 {
-    printf("agent");
+    menu_reclamations();
 }
 
 void menu_client()

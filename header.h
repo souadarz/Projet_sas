@@ -34,6 +34,9 @@ typedef struct utilisateur {
     int role;
 } utilisateur;
 
+// char mot_cle_haute[5][15] = {"urgent", "risque", "ritique", "haute2", "haute3"};
+// char mot_cle_myenne[5][15] = {"moyenne_1", "moyenne_2", "moyenne_3", "moyenne_4", "moyenne_5"};
+// char mot_cle_besse[5][15] = {"basse_1", "basse_2", "basse_3", "basse_4", "basse_5"};
 utilisateur* utilisateur_actuel;
 utilisateur tableau_utilisateur[TAILLE_UTILISATEUR];
 reclamation tableau_reclamation[TAILLE];
@@ -57,4 +60,9 @@ void rechercher_utilisateur();
 char date_de_reclamation();
 int generation_ID_reclamation();
 void initilistaion_reclamation();
+void afficher_reclamation_priorite();
+void rechercher_reclamation_ID();
+void rechercher_reclamation_nom();
+void rechercher_reclamation_date();
+void trouver_reclamation(char email[TAILLE_EMAIL]);
 #endif
