@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+
 extern int nombre_reclamation;
 extern int nombre_utilisateur;
 extern char liste_categories[5][60];
+extern int id_reclamation;
 
 void initilistaion_reclamation()
 {
@@ -16,12 +18,28 @@ void initilistaion_reclamation()
     tableau_reclamation[0].date = time(NULL);
     tableau_reclamation[0].ID = generation_ID_reclamation();
     nombre_reclamation++;
+    strcpy(tableau_reclamation[1].email, "client_1@gmail.com");
+    strcpy(tableau_reclamation[1].description, "jjjjjjjjjjjjjjjj");
+    strcpy(tableau_reclamation[1].motif, "kkkkkkkkkkkkk");
+    strcpy(tableau_reclamation[1].categorie, "gggggggggggg");
+    strcpy(tableau_reclamation[1].status, "en cours");
+    tableau_reclamation[1].date = time(NULL);
+    tableau_reclamation[1].ID = generation_ID_reclamation();
+    nombre_reclamation++;
+    strcpy(tableau_reclamation[2].email, "client_2@gmail.com");
+    strcpy(tableau_reclamation[2].description, "aaaaaaaaaaaaaa");
+    strcpy(tableau_reclamation[2].motif, "bbbbbbbbbbbb");
+    strcpy(tableau_reclamation[2].categorie, "bbbbbbbbbbbbbbbbb");
+    strcpy(tableau_reclamation[2].status, "rejeté");
+    tableau_reclamation[2].date = time(NULL);
+    tableau_reclamation[2].ID = generation_ID_reclamation();
+    nombre_reclamation++;
 }
 
-void afficher_reclamation(char email[TAILLE_EMAIL], int role)
+void afficher_reclamation()
 {
     int i;
-    if (role == 1 || role == 2)
+    if (utilisateur_actuel->role == 1 || utilisateur_actuel->role == 2)
     {
         for (i = 0; i < nombre_reclamation; i++)
         {
@@ -35,14 +53,13 @@ void afficher_reclamation(char email[TAILLE_EMAIL], int role)
             // Convert time_t to struct tm
             struct tm *timeinfo = localtime(&tableau_reclamation[i].date);
             printf("\nle date : %s", asctime(timeinfo));
-            
         }
     }
     else
     {
         for (i = 0; i < nombre_reclamation; i++)
         {
-            if (strcmp(tableau_reclamation[i].email, email) == 0)
+            if (strcmp(tableau_reclamation[i].email, utilisateur_actuel->email) == 0)
             {
                 printf("reclamation %d :", tableau_reclamation[i].ID);
                 printf("\nla description : %s", tableau_reclamation[i].description);
@@ -52,145 +69,113 @@ void afficher_reclamation(char email[TAILLE_EMAIL], int role)
                 // Convert time_t to struct tm
                 struct tm *timeinfo = localtime(&tableau_reclamation[i].date);
                 printf("\nle date : %s", asctime(timeinfo));
-                break;
             }
         }
     }
-    if(role == 1 || role == 2)
+    if (utilisateur_actuel->role == 1 || utilisateur_actuel->role == 2)
     {
         printf("\nclicker entrer pour revenir en arriere");
         getchar();
-        menu_reclamations(email , role);
+        menu_reclamations();
     }
     else
     {
         printf("\nclicker entrer pour revenir en arriere");
         getchar();
-        menu_client(email , role);
+        menu_client();
     }
 }
-    void ajouter_reclamation(char email[], int role)
+void ajouter_reclamation()
+{
+    time_t date, date_reclamation;
+    int i, n;
+    char desciption_client[TAILLE_DESCIPTION], motif_client[TAILLE_MOTIF];
+    printf("\nentrer la discripton de votre reclamation : ");
+    scanf(" %[^\n]s", desciption_client);
+    printf("\nchoisir la categorie de votre reclamation : \n");
+    for (i = 0; i < 5; i++)
     {
-        time_t date, date_reclamation;
-        int i, n;
-        char desciption_client[TAILLE_DESCIPTION], motif_client[TAILLE_MOTIF];
-        printf("\nentrer la discripton de votre reclamation : ");
-        scanf(" %[^\n]s", desciption_client);
-        printf("\nchoisir la categorie de votre reclamation : \n");
-        for (i = 0; i < 5; i++)
-        {
-            printf("%d  %s\n", i + 1, liste_categories[i]);
-        }
-        scanf("%d", &n);
+        printf("%d  %s\n", i + 1, liste_categories[i]);
+    }
+    scanf("%d", &n);
+    getchar();
+    printf("\nentrer le motif de votre reclamation : ");
+    scanf(" %[^\n]s", motif_client);
+    getchar();
+    tableau_reclamation[nombre_reclamation].ID = generation_ID_reclamation();
+    strcpy(tableau_reclamation[nombre_reclamation].email, utilisateur_actuel->email);
+    strcpy(tableau_reclamation[nombre_reclamation].description, desciption_client);
+    strcpy(tableau_reclamation[nombre_reclamation].categorie, liste_categories[n - 1]);
+    strcpy(tableau_reclamation[nombre_reclamation].motif, motif_client);
+    strcpy(tableau_reclamation[nombre_reclamation].status, "en cours");
+    // time_t date_reclamation;
+    date_reclamation = time(NULL);
+    tableau_reclamation[nombre_reclamation].date = date_reclamation;
+    nombre_reclamation++;
+    if (utilisateur_actuel->role == 1 || utilisateur_actuel->role == 2)
+    {
+        printf("\nclicker entrer pour revenir en arriere");
         getchar();
-        printf("\nentrer le motif de votre reclamation : ");
-        scanf(" %[^\n]s", motif_client);
+        menu_reclamations();
+    }
+    else
+    {
+        printf("\nclicker entrer pour revenir en arriere");
         getchar();
-        tableau_reclamation[nombre_reclamation].ID = generation_ID_reclamation();
-        strcpy(tableau_reclamation[nombre_reclamation].email, email);
-        strcpy(tableau_reclamation[nombre_reclamation].description, desciption_client);
-        strcpy(tableau_reclamation[nombre_reclamation].categorie, liste_categories[n - 1]);
-        strcpy(tableau_reclamation[nombre_reclamation].motif, motif_client);
-        strcpy(tableau_reclamation[nombre_reclamation].status, "en cours");
-        // time_t date_reclamation;
-        date_reclamation = time(NULL);
-        tableau_reclamation[nombre_reclamation].date = date_reclamation;
-        nombre_reclamation++;
-        if(utilisateur_actuel.role == 1 || utilisateur_actuel.role == 2)
-            menu_reclamations();
-        else
-            menu_client(email , role);
+        menu_client();
     }
-    void modifier_reclamation()
+}
+void modifier_reclamation()
+{
+    char nouveau_desription[TAILLE_DESCIPTION], nou_categorie[TAILLE_CATEGORIE];
+}
+void supprimer_reclamation()
+{
+    int i, identifiant, identifiant_found = 0;
+    printf("entrer l'identifiant de la reclamation a suppimer :  ");
+    scanf("%d", identifiant);
+    for(i = 0; i < nombre_reclamation; i++)
     {
-        char nouveau_desription[TAILLE_DESCIPTION], nou_categorie[TAILLE_CATEGORIE];
-    }
-    void supprimer_reclamation()
-    {
-        printf("supprimer");
-    }
-    void traiter_reclamation()
-    {
-        printf("traiter");
-    }
-    void rechercher_reclamation()
-    {
-        printf("rechercher");
-    }
-    void modifier_utilisateur()
-    {
-        char email[TAILLE_EMAIL], nouveau_email[TAILLE_EMAIL], nouveau_motdepass[TAILLE_MOTDEPASS], nouveau_nom[TAILLE_NOM],
-            nouveau_prenom[TAILLE_PRENOM];
-        int i, utilisateur_found = 0, nouveau_role, nouveau_age;
-        printf("\nentrer l'email de l'utilisateur a modifier : ");
-        scanf(" %[^\n]s", email);
-        printf("\nentrer le nouveau email : ");
-        scanf(" %[^\n]s", nouveau_email);
-        printf("\nentrer le nouveau mot de pass : ");
-        scanf(" %[^\n]s", nouveau_motdepass);
-        printf("\nentrer le nouveau nom : ");
-        scanf(" %[^\n]s", nouveau_nom);
-        printf("\nentrer le nouveau prenom : ");
-        scanf(" %[^\n]s", nouveau_prenom);
-        printf("\nentrer le nouveau age : ");
-        scanf(" %d", nouveau_age);
-        printf("\nentrer le nouveau role : ");
-        scanf(" %d", nouveau_role);
-        for (i = 0; i < nombre_utilisateur; i++)
+        if(tableau_reclamation[i].ID == identifiant)
         {
-            if(strcmp(tableau_utilisateur[i].email, email) == 0)
-            {
-                strcpy(tableau_utilisateur[i].email, nouveau_email);
-                strcpy(tableau_utilisateur[i].motdepass, nouveau_motdepass);
-                strcpy(tableau_utilisateur[i].nom, nouveau_nom);
-                strcpy(tableau_utilisateur[i].prenom, nouveau_prenom);
-                tableau_utilisateur[i].age = nouveau_age;
-                tableau_utilisateur[i].role = nouveau_role;
-                utilisateur_found = 1;
-            }
+            identifiant_found = 1;
+            break;
         }
-        if(utilisateur_found != 1)
-            printf("aucun utilisateur trouver pour cet email");
     }
-    void supprimer_utilisateur()
+    for(; i < nombre_reclamation - 1; i++)
     {
-        int i, utilisateur_found = 0;
-        char email[TAILLE_EMAIL];
-        printf("\nentrer l'email de l'utilisateur a supprimer : ");
-        scanf(" %[^\n]s", email);
-        for(i = 0; i < nombre_utilisateur; i++)
-        {
-            if(strcmp(tableau_utilisateur[i].email, email) == 0)
-                utilisateur_found = 1;
-                  break;
-        }
-        for(; i < nombre_utilisateur - 1; i++)
-            {
-                tableau_utilisateur[i] = tableau_utilisateur[i + 1];
-            }
-            nombre_utilisateur--;
-        if(utilisateur_found != 1)
-            printf("aucun utilisateur trouver pour cet email");
+        tableau_reclamation[i] = tableau_reclamation[i + 1];
     }
-    void rechercher_utilisateur()
+    if(identifiant != 1)
+        nombre_reclamation--;
+    else
+        printf("\naucune reclamation trouver pour cet identiant");
+}
+void traiter_reclamation()
+{
+    printf("traiter");
+}
+void rechercher_reclamation()
+{
+    int n;
+    printf("\nchoisir l'option par laquelle vous voullez faire la recherche  : ");
+    printf("\n1. recherche par identifiant de la reclamation(ID)");
+    printf("\n2. recherche par le nom dde l'utilisateur");
+    printf("\n3. recherche par email de l'utilisataeu");
+    scanf("%d", &n);
+    switch(n)
     {
-        int i, utilisateur_found = 0;
-        char email[TAILLE_EMAIL];
-        printf("\nentrer l'email de l'utilisateur a rechercher : ");
-        scanf(" %[^\n]s", email);
-        for(i = 0; i < nombre_utilisateur; i++)
-        {
-            if(strcmp(tableau_utilisateur[i].email, email) == 0)
-            {
-                printf("\nemail : %s", tableau_utilisateur[i].email);
-                printf("\nmot de pass : %s", tableau_utilisateur[i].motdepass);
-                printf("\nle nom : %s", tableau_utilisateur[i].nom);
-                printf("\nle prenom : %s", tableau_utilisateur[i].prenom);
-                printf("\nl'age : %d", tableau_utilisateur[i].age);
-                printf("\nle role %d", tableau_utilisateur[i].role);
-                utilisateur_found = 1;
-            }
-        }
-        if(utilisateur_found != 1)
-            printf("aucun utilisateur trouver pour cet email");
+        case 1: rechercher_reclamation_ID(); break;
+        case 2: rechercher_reclamation_nom(); break;
+        case 3: rechercher_reclamation_email(); break;
+        default: printf("\n essayer d'entrer un nombre se trouve dans la liste");
     }
+}
+
+void rechercher_reclamation_ID()
+{
+    int identifiant;
+    printf("entrer l'identifiant de la reclamation(ID) a rechrcher  : ");
+    scanf("%d", identifiant);
+}
+

@@ -34,11 +34,11 @@ typedef struct utilisateur {
     int role;
 } utilisateur;
 
-utilisateur utilisateur_actuel;
+utilisateur* utilisateur_actuel;
 utilisateur tableau_utilisateur[TAILLE_UTILISATEUR];
 reclamation tableau_reclamation[TAILLE];
 int validation_motdepass(char motdepass[TAILLE_MOTDEPASS], char nom_utilisateur[TAILLE_NOM]);
-utilisateur trouver_utilisateur(char email[TAILLE_EMAIL]);
+utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL]);
 void menu_reclamations();
 void menu_utilisateurs();
 void menu_statistiques();
