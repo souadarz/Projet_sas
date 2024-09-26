@@ -11,6 +11,7 @@
 #define TAILLE_PRENOM 20
 #define TAILLE_MOTDEPASS 20
 #define TAILLE_UTILISATEUR 100
+#define TAILLE_NOTE 1000
 
 #include <time.h>
 
@@ -22,7 +23,8 @@ typedef struct reclamation {
     char categorie[TAILLE_CATEGORIE];
     char status[TAILLE_STATUS];
     time_t date;
-    
+    int priorite;
+    char note[TAILLE_NOTE];
 } reclamation;
 
 typedef struct utilisateur {
@@ -60,9 +62,8 @@ void rechercher_utilisateur();
 char date_de_reclamation();
 int generation_ID_reclamation();
 void initilistaion_reclamation();
-void afficher_reclamation_priorite();
 void rechercher_reclamation_ID();
 void rechercher_reclamation_nom();
-void rechercher_reclamation_date();
+//void rechercher_reclamation_date();
 void trouver_reclamation(char email[TAILLE_EMAIL]);
 #endif

@@ -1,9 +1,15 @@
 #include "header.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
 
 void menu_admin()
-{ 
+{
     int n;
+    system("cls");
+    printf("\n##################################################");
+    printf("\n                   Menu admin                     ");
+    printf("\n##################################################\n");
     printf("\n1.gestion des reclamations");
     printf("\n2.gestion des utilisateurs");
     printf("\n3.generation des statistiques");
@@ -22,16 +28,18 @@ void menu_admin()
 void menu_reclamations()
 {
     int n;
+    system("cls");
+     printf("\n##################################################");
+    printf("\n                  Menu reclamations  ");
+    printf("\n##################################################\n");
     printf("\n0. revenir");
-    printf("\n1. afficher la liste des réclamations");
-    printf("\n2. modifier une réclamation");
-    printf("\n3. supprimer  une réclamation");
+    printf("\n1. afficher la liste des reclamations");
+    printf("\n2. modifier une reclamation");
+    printf("\n3. supprimer  une reclamation");
     printf("\n4. traiter une reclamation");
     printf("\n5. rechercher une reclamation");
     printf("\n6. ajouter une reclamation");
     printf("\n7. quitter");
-    if(utilisateur_actuel->role == 1)
-        printf("\n8. afficher par priorité");
     printf("\nentrer un nombre : ");
     scanf("%d", &n);
     getchar();
@@ -44,12 +52,7 @@ void menu_reclamations()
         case 4: traiter_reclamation(); break;
         case 5: rechercher_reclamation(); break;
         case 6: ajouter_reclamation(); break;
-        case 7: {
-                if(utilisateur_actuel->role == 1)
-                    afficher_reclamation_priorite();
-            break;
-        }
-        case 8: break;
+        case 7: exit(0);
         default: printf("\nentrer un nombre se trouve dans la liste");
             break;
     }
@@ -57,6 +60,10 @@ void menu_reclamations()
 void menu_utilisateurs()
 {
     int n;
+    system("cls");
+    printf("\n##################################################");
+    printf("\n                   Menu utilisateurs");
+    printf("\n##################################################\n");
     printf("\n0. revenir");
     printf("\n1.modifier les informations d'un utilisateur");
     printf("\n2.supprimer un utilisateur");
@@ -85,9 +92,14 @@ void menu_agent_reclamation()
 void menu_client()
 {
     int n;
-    printf("\n1. afficher réclamations");
-    printf("\n2. modifier une réclamation");
+    system("cls");
+    printf("\n##################################################");
+    printf("\n                   Menu client");
+    printf("\n##################################################\n");
+    printf("\n1. afficher reclamations");
+    printf("\n2. modifier une reclamation");
     printf("\n3. ajouter_reclamation");
+    printf("\n4. quitter");
     printf("\nentrer un nombre : ");
     scanf("%d", &n);
     getchar();
@@ -96,6 +108,7 @@ void menu_client()
         case 1: afficher_reclamation(); break;
         case 2: modifier_reclamation(); break;
         case 3: ajouter_reclamation(); break;
+        case 4: exit(0);
         default: printf("\nentrer un nombre se trouve dans la liste");
             break;
     }

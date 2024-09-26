@@ -1,164 +1,98 @@
-#include "header.h"
 #include <stdio.h>
+#include "header.h"
 #include <string.h>
-#include <unistd.h>
+extern int id_reclamation;
+extern int nombre_reclamation;
+extern int nombre_utilisateur;
 
-char mot_cle_haute[5][15] = {"urgent", "risque", "ritique", "haute2", "haute3"};
-char mot_cle_myenne[5][15] = {"moyenne_1", "moyenne_2", "moyenne_3", "moyenne_4", "moyenne_5"};
-char mot_cle_besse[5][15] = {"basse_1", "basse_2", "basse_3", "basse_4", "basse_5"};
-char liste_categories[5][60] ={"categorie_1", "categorie_2", "categorie_3", "categrie_4", "categorie_5"};
-int nombre_reclamation = 0;
-int nombre_utilisateur = 0;
-int id_reclamation = 0;
-void sign_up();
-void sign_in();
-void sign_up_in_affichage();
-
-void initialisation_utilisateur()
-{
-    // les informations du admin
-    strcpy(tableau_utilisateur[0].email, "admin@gmail.com");
-    strcpy(tableau_utilisateur[0].motdepass, "12ABcd@#");
-    strcpy(tableau_utilisateur[0].nom, "mohamed");
-    strcpy(tableau_utilisateur[0].prenom, "boclet");
-    tableau_utilisateur[0].age = 35;
-    tableau_utilisateur[0].role = 1;
-    nombre_utilisateur++;
-}
-
-int valider_email_format(char email[TAILLE_EMAIL])
-{
-    int i, arobase_found = 0, point_found = 0;
-    for (i = 0; email[i] != '\0'; i++)
-    {
-        if (email[i] == '@')
-            arobase_found = 1;
-        if (point_found)
-            return (1);
-        if (arobase_found && email[i] == '.')
-            point_found = 1;
-    }
-    return (0);
-}
-int valider_email(char email[TAILLE_EMAIL])
+utilisateur* trouver_utilisateur(char email[TAILLE_EMAIL])
 {
     int i;
-    if (valider_email_format(email) == 0)
+    for(i = 0; i < nombre_utilisateur; i++)
     {
-        return (-1);
+        if(strcmp(email, tableau_utilisateur[i].email) == 0)
+            return (&(tableau_utilisateur[i]));
     }
-    if(trouver_utilisateur(email) == NULL)
-        return (1);
-    return (0);
+    return (NULL);
 }
-void sign_up_in_affichage()
-{
-    int choix;
-    do
-    {
-        printf("\n1. sign up");
-        printf("\n2. sign in");
-        printf("\nchoisir un nombre : ");
-        scanf("%d", &choix);
-        switch (choix)
-        {
-        case 1:
-            sign_up();
-            break;
-        case 2:
-            sign_in();
-            break;
-        default:
-            printf("\nessayer de choisir un  nombre se trouvre dans la liste");
-            break;
-        }
-    } while (((choix != 1) && (choix != 2)));
-}
-void sign_in()
-{
-    int i, nombre_essais = 0;
-    char email_user[TAILLE_EMAIL], motdepass_user[TAILLE_MOTDEPASS];
-    utilisateur* user;
-    do
-    {
-        printf("\nentrer l'email : ");
-        scanf(" %[^\n]s", email_user);
-        printf("\nentrer le mot de pass : ");
-        scanf(" %[^\n]s", motdepass_user);
-        user = trouver_utilisateur(email_user);
-        nombre_essais++;
-        if((user == NULL|| (strcmp(motdepass_user, user->motdepass) != 0)) && (nombre_essais < 3))
-            printf("\nl'email ou le mot de pass est inccorect, essayer une autre fois");
-    } while((user == NULL || strcmp(motdepass_user, user->motdepass) != 0) && nombre_essais < 3);
 
+int generation_ID_reclamation()
+{
+    return(id_reclamation++);
+}
+
+void rechercher_utilisateur()
+{
+    int i;
+    char email[TAILLE_EMAIL];
+    printf("\nentrer l'email de l'utilisateur a rechercher : ");
+    scanf(" %[^\n]s", email);
+
+    utilisateur* user = trouver_utilisateur(email);
+    if (user != NULL)
+    {
+        printf("\nemail : %s", user->email);
+        printf("\nmot de pass : %s", user->motdepass);
+        printf("\nle nom : %s", user->nom);
+        printf("\nle prenom : %s",user->prenom);
+        printf("\nl'age : %d", user->age);
+        printf("\nle role %d", user->role);
+    }
     if (user == NULL)
+        printf("\naucun utilisateur trouver pour cet email");
+}
+void supprimer_utilisateur()
+{
+    int i, utilisateur_found = 0;
+    char email[TAILLE_EMAIL];
+    printf("\nentrer l'email de l'utilisateur a supprimer : ");
+    scanf(" %[^\n]s", email);
+    for (i = 0; i < nombre_utilisateur; i++)
     {
-        printf("\nessayer une autre fois dans une heure");
-        sleep(10);
-        sign_up_in_affichage();
-    }
-    else
-    {
-        utilisateur_actuel = user;
-        switch (user->role)
+        if (strcmp(tableau_utilisateur[i].email, email) == 0)
         {
-        case 1:
-            menu_admin(user->email , user->role);
-            break;
-        case 2:
-            menu_agent_reclamation(user->email , user->role);
-            break;
-        case 3:
-            menu_client(user->email , user->role);
+            utilisateur_found = 1;
             break;
         }
     }
-}
-
-void sign_up()
-{
-    char email_user[TAILLE_EMAIL], motdepass_user[TAILLE_MOTDEPASS], nom_user[TAILLE_NOM], prenom_user[TAILLE_PRENOM];
-    int i, age_user, test_email, test_motdepass;
-    do
+    for (; i < nombre_utilisateur - 1; i++)
     {
-        printf("\nentrer l'email : ");
-        scanf(" %[^\n]s", email_user);
-        test_email = valider_email(email_user);
-        if (test_email == -1)
-            printf("\nformat invalide, essayer d'entrer un email sous la forme : example@gmail.com");
-        else if (test_email == 0)
-            printf("\nemail deja existe, essayer avec un autre");
-    } while (test_email == 0 || test_email == -1);
-    printf("\nentrer le nom : ");
-    scanf(" %[^\n]s", nom_user);
-    printf("\nentrer le prenom : ");
-    scanf(" %[^\n]s", prenom_user);
-    printf("\nentrer l'age : ");
-    scanf("%d", &age_user);
-    do
-    {
-        printf("\nentrer le mot de pass : ");
-        scanf(" %[^\n]s", motdepass_user);
-        test_motdepass = validation_motdepass(motdepass_user, nom_user);
-        if (test_motdepass == 0)
-            printf("\nle mot de pass Doit contenir au moins :une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial (par exemple : !@#$%^&*)");
-        else if (test_motdepass == -1)
-            printf("\nle mot de pass doit contenir au minimum 8 caractère et ne doit pas contenir le nom de l'utilisateur");
-    } while ((test_motdepass == 0) || (test_motdepass == -1));
-    strcpy(tableau_utilisateur[nombre_utilisateur].email, email_user);
-    strcpy(tableau_utilisateur[nombre_utilisateur].nom, nom_user);
-    strcpy(tableau_utilisateur[nombre_utilisateur].prenom, prenom_user);
-    tableau_utilisateur[nombre_utilisateur].age = age_user;
-    strcpy(tableau_utilisateur[nombre_utilisateur].motdepass, motdepass_user);
-    tableau_utilisateur[nombre_utilisateur].role = 3;
-    nombre_utilisateur++;
-    printf("\nvous avez inscrir");
-    printf("\nvous pouvez maintement se connecter");
-    sign_in();
+        tableau_utilisateur[i] = tableau_utilisateur[i + 1];
+    }
+    if (utilisateur_found == 1)
+        nombre_utilisateur--;
+    else
+        printf("aucun utilisateur trouver pour cet email");
 }
-int main()
+void modifier_utilisateur()
 {
-    initialisation_utilisateur();
-    initilistaion_reclamation();
-    sign_up_in_affichage();
+    char email[TAILLE_EMAIL], nouveau_email[TAILLE_EMAIL], nouveau_motdepass[TAILLE_MOTDEPASS], 
+    nouveau_nom[TAILLE_NOM], nouveau_prenom[TAILLE_PRENOM];
+    int i, nouveau_role, nouveau_age;
+    printf("\nentrer l'email de l'utilisateur a modifier : ");
+    scanf(" %[^\n]s", email);
+    printf("\nentrer le nouveau email : ");
+    scanf(" %[^\n]s", nouveau_email);
+    printf("\nentrer le nouveau mot de pass : ");
+    scanf(" %[^\n]s", nouveau_motdepass);
+    printf("\nentrer le nouveau nom : ");
+    scanf(" %[^\n]s", nouveau_nom);
+    printf("\nentrer le nouveau prenom : ");
+    scanf(" %[^\n]s", nouveau_prenom);
+    printf("\nentrer le nouveau age : ");
+    scanf(" %d", &nouveau_age);
+    printf("\nentrer le nouveau role : ");
+    scanf(" %d", &nouveau_role);
+    utilisateur* user = trouver_utilisateur(email);
+    if (user != NULL)
+    {
+        strcpy(user->email, nouveau_email);
+        strcpy(user->nom, nouveau_nom);
+        strcpy(user->motdepass, nouveau_motdepass);
+        strcpy(user->prenom, nouveau_prenom);
+        user->age = nouveau_age;
+        user->role = nouveau_role;
+    }
+    if (user == NULL)
+        printf("aucun utilisateur trouver pour cet email");
 }
